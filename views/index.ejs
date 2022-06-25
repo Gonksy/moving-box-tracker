@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Moving Box Tracker</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Moving Box Tracker</h1>
+  <ul class="box1">
+    <% for(let i=0; i < info.length; i++) {%>
+      <li class="boxItem">
+        <span><%= info[i].name %></span>
+        <span><%= info[i].count %></span>
+      </li>
+    <%} %>
+  </ul>
+
+  <form action="/addItem" method="POST">
+    <input type="text" name="name" placeholder="New item">
+    <input type="text" name="count" placeholder="0">
+    <input type="submit">
+
+  </form>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
