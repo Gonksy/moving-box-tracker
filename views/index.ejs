@@ -9,21 +9,36 @@
 </head>
 <body>
   <h1>Moving Box Tracker</h1>
-  <ul class="box1">
-    <% for(let i=0; i < info.length; i++) {%>
-      <li class="boxItem">
-        <span><%= info[i].name %></span>
-        <span><%= info[i].count %></span>
-      </li>
-    <%} %>
+  <ul class="allBoxes">
+    <% for(let i = 0; i < info.length; i++){%>
+    <ol class="box">
+      <h2>Box <%=info[i].name%> </h2>
+      <% for(let j = 0; j < info[i].length; j++){%>
+        <li class="boxItem">
+          <span><%= info[i][j].name %></span>
+          <span><%= info[i][j].count %></span>
+        </li>
+      <%} %>
+      <form action="/additem/<%=i+1%>" method="POST">
+        <input type="text" name="name" placeholder="New item">
+        <input type="text" name="count" placeholder="0">
+        <input type="submit">
+      </form>
+        <input class="deleteBoxButtons" id="box<%=i+1%>" type="submit" value="Delete Box <%=i+1%>">
+      
+    </ol>
+    </ol>
+      <%} %>
+
+    
+
   </ul>
-
-  <form action="/addItem" method="POST">
-    <input type="text" name="name" placeholder="New item">
-    <input type="text" name="count" placeholder="0">
-    <input type="submit">
-
+  <form action="/createBox" method="POST">
+    <input type="text" name="name" placeholder="Box Name">
+    <input type="submit" value="Create New Box">
   </form>
+
+  
 
   <script src="js/main.js"></script>
 </body>

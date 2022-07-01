@@ -1,0 +1,4 @@
+.allBoxes{
+  display: flex;
+  flex-wrap: wrap;
+}
