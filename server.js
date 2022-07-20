@@ -4,6 +4,9 @@ const MongoClient = require('mongodb').MongoClient
 const PORT = 8000
 require('dotenv').config()
 
+
+
+
 //Registration & Authentication
 const bcrypt = require('bcrypt')
 const flash = require('express-flash')
@@ -79,21 +82,27 @@ app.post('/register', async (req, res) => {
 
 
 
+let boxNames
 let boxCount
 app.get('/', (req, res) =>{
   async function getBoxes(){
     const allBoxes = await db.listCollections().toArray()
-    boxCount = allBoxes.length
-    console.log({allBoxes})
+    boxNames = allBoxes.map(x => x.name) 
+    boxCount = boxNames.length
     const boxData = []
-    for (let i = 1; i <= boxCount; i++){
-      boxData.push(await db.collection(`box${i}`).find().toArray())
+    for (let i = 0; i < boxCount; i++){
+      boxData.push(await db.collection(`${boxNames[i]}`).find().toArray())
     }
+
+    for(let i = 0; i < boxCount; i++){
+      {boxData[i]; boxNames[i]}
+    }
+    console.log({boxNames, boxData})
     return boxData
   }
   getBoxes()
     .then(data => {
-      // console.log(data)
+      console.log(data)
       res.render('index.ejs', { info: data })
     })
     .catch(error => console.error(error))
@@ -113,6 +122,7 @@ app.post('/createBox/', (req, res) => {
   const boxName = req.body.name
   console.log(boxName)
   db.createCollection(boxName)
+    .then(db.collection(boxName).insertOne({name: boxName}))
     .then(result => {
       console.log(`Box "${boxName}" created`)
       res.redirect('/')
